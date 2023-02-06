@@ -9,6 +9,7 @@ COPY --chown=node:node ./package.json ./
 RUN npm install
 COPY --chown=node:node ./ ./
 
+# add permissions for wsl to run react-scripts
 RUN ["chmod", "-R", "a+x", "node_modules/react-scripts"]
 
 CMD ["npm", "run", "start"]

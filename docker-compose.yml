@@ -7,14 +7,19 @@ services:
   redis:
     image: 'redis:latest'
   nginx:
+    depends_on:
+      - api
+      - client
     # always restart as nginx handles traffic routing for entire app
     restart: always
     build:
       dockerfile: Dockerfile.dev
       context: ./nginx
     ports:
-      - '3000:80'
+      - '3050:80'
   api:
+    depends_on:
+      - postgres
     build:
       dockerfile: Dockerfile.dev
       context: ./server

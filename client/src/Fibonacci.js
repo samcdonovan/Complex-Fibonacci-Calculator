@@ -15,7 +15,7 @@ class Fibonacci extends Component {
 
     async fetchValues() {
         const values = await axios.get('/api/values/current');
-        this.setValues({ values: values.data });
+        this.setState({ values: values.data });
     }
 
     async fetchIndexes() {
@@ -28,7 +28,7 @@ class Fibonacci extends Component {
     handleSubmit = async (event) => {
         event.preventDefault();
 
-        await axios.post('/ap/values', {
+        await axios.post('/api/values', {
             index: this.state.index
         });
         this.setState({ index: '' });

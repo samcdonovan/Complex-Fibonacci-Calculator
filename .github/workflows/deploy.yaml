@@ -9,15 +9,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      # login to docker CLI
       - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      # build and run client react tests
       - run: docker build -t samcdonovan/react-test -f ./client/Dockerfile.dev ./client
       - run: docker run -e CI=true samcdonovan/react-test npm test
  
+      # build service images
       - run: docker build -t samcdonovan/multi-client-10-14 ./client
       - run: docker build -t samcdonovan/multi-nginx-10-14 ./nginx
       - run: docker build -t samcdonovan/multi-server-10-14 ./server
       - run: docker build -t samcdonovan/multi-worker-10-14 ./worker
  
+      # push images to dockerHub
       - run: docker push samcdonovan/multi-client-10-14
       - run: docker push samcdonovan/multi-nginx-10-14
       - run: docker push samcdonovan/multi-server-10-14
